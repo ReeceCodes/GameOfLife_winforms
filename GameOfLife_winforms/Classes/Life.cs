@@ -61,7 +61,7 @@ namespace GameOfLife_winforms.Classes
         private int _columns;
         private int _rows;
         private int _cells;
-        private int _liveCellCount;
+        private int _liveCellCount;        
         private bool[] _currentStates;
         private bool[] _newStates;
         private bool[] _startStates;
@@ -77,7 +77,10 @@ namespace GameOfLife_winforms.Classes
             //_rows = xy; original code used a lot of the private members instead of properties...why??
             Rows = xy;
             Columns = xy;
+            Cells = Rows * Columns;
 
+            ClearGrid();
+            StartStates = new bool[Cells];
         }
 
         //set the columns and rows individually
@@ -213,6 +216,7 @@ namespace GameOfLife_winforms.Classes
         //this was always the function that I could never wrap my head around
         private int GetContacts(int x, int y)
         {
+            //TODO fix this. logic is wrong, getting out of bounds errors
             int ContactCount = 0;
 
             //have to test each because it could have up to 8 neighbors. probably could find a way to shortcut the number of checks if it's already over the number of birth rules
