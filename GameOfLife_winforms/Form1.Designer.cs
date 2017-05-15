@@ -50,6 +50,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.nmbRandom = new System.Windows.Forms.NumericUpDown();
             this.grdLife = new GameOfLife_winforms.User_Controls.Grid();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nmbInterval)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nmbRandom)).BeginInit();
@@ -219,6 +220,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.cboPresets);
             this.groupBox1.Controls.Add(this.chkShortcut);
             this.groupBox1.Controls.Add(this.label4);
@@ -244,7 +246,7 @@
             "Glider (NE)",
             "Glider (SW)",
             "Glider (SE)"});
-            this.cboPresets.Location = new System.Drawing.Point(17, 177);
+            this.cboPresets.Location = new System.Drawing.Point(11, 177);
             this.cboPresets.Name = "cboPresets";
             this.cboPresets.Size = new System.Drawing.Size(121, 21);
             this.cboPresets.TabIndex = 19;
@@ -296,6 +298,15 @@
             this.grdLife.Size = new System.Drawing.Size(500, 500);
             this.grdLife.TabIndex = 0;
             this.grdLife.TabStop = false;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 161);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(82, 13);
+            this.label5.TabIndex = 20;
+            this.label5.Text = "On Click Add A:";
             // 
             // frmGOL
             // 
@@ -349,6 +360,7 @@
         private System.Windows.Forms.NumericUpDown nmbRandom;
         private System.Windows.Forms.CheckBox chkShortcut;
         private System.Windows.Forms.ComboBox cboPresets;
+        private System.Windows.Forms.Label label5;
     }
 }
 
