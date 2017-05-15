@@ -38,7 +38,7 @@ namespace GameOfLife_winforms.User_Controls
             set
             {
                 _deadColor = value;
-                Invalidate(); 
+                Invalidate();
             }
         }
 
@@ -173,16 +173,17 @@ namespace GameOfLife_winforms.User_Controls
             {
                 for (int x = 0; x < Columns; x++)
                 {
-                    if (_gridStates[(x + y) * Columns])
+                    if (_gridStates[x + (y * Columns)]) //had the grouping backwards
                     {
-                        painter.FillRectangle(AliveBrush, x * CellWidth, y * CellHeight, CellWidth - line, CellHeight - 0);
+                        painter.FillRectangle(AliveBrush, x * CellWidth, y * CellHeight, CellWidth - line, CellHeight - line);
                     }
                     else
                     {
-                        painter.FillRectangle(DeadBrush, x * CellWidth, y * CellHeight, CellWidth - line, CellHeight - 0);
+                        painter.FillRectangle(DeadBrush, x * CellWidth, y * CellHeight, CellWidth - line, CellHeight - line);
                     }
                 }
             }
+
         }
         #endregion
 

@@ -51,8 +51,16 @@ namespace GameOfLife_winforms.Classes
             set { _startStates = value; }
         }
 
+        public List<string> LastStates
+        {
+            get { return _lastStates; }
+            set { _lastStates = value; }
+        }
+
+        public bool ShortStop { get; set; }
+
         //instead of optional rules just use static ones
-        public static readonly List<int> SurviveRules = new List<int>() { 2,3 }; //const doesn't work here
+        public static readonly List<int> SurviveRules = new List<int>() { 2, 3 }; //const doesn't work here
         public const int BirthRules = 3; //initially was a list
 
         #endregion
@@ -61,11 +69,13 @@ namespace GameOfLife_winforms.Classes
         private int _columns;
         private int _rows;
         private int _cells;
-        private int _liveCellCount;        
+        private int _liveCellCount;
         private bool[] _currentStates;
         private bool[] _newStates;
         private bool[] _startStates;
-        
+
+        private List<string> _lastStates = new List<string>();
+
         #endregion
 
         #region Constructors        
@@ -97,7 +107,7 @@ namespace GameOfLife_winforms.Classes
         {
             LiveCellCount = 0;
             CurrentStates = new bool[Cells];
-            NewStates = new bool[Cells];                       
+            NewStates = new bool[Cells];
         }
 
         public void RandomFill(double percent)
@@ -128,8 +138,27 @@ namespace GameOfLife_winforms.Classes
 
         public void Step()
         {
+            ShortStop = false;
+
             AdvancePopulation();
-            NewStates.CopyTo(CurrentStates, 0); 
+            NewStates.CopyTo(CurrentStates, 0);
+
+            string curr = GetStateString(CurrentStates);
+
+            if (LastStates.Count == 10)
+            {
+                if (LastStates.Contains(curr))
+                {
+                    ShortStop = true;
+                }
+
+                LastStates.RemoveAt(0);
+                LastStates.Add(curr);
+            }
+            else
+            {
+                LastStates.Add(curr);
+            }
         }
 
         public bool GetCellState(int x, int y)
@@ -140,7 +169,7 @@ namespace GameOfLife_winforms.Classes
                 return false;
             }
 
-            return CurrentStates[(x + y) * Columns]; //return the cell's value, this is one of the things I had trouble getting my head around. Getting the correct coordinate value from the value list
+            return CurrentStates[x + (y * Columns)]; //return the cell's value, this is one of the things I had trouble getting my head around. Getting the correct coordinate value from the value list
         }
 
         public void ToggleCellState(int x, int y)
@@ -148,7 +177,7 @@ namespace GameOfLife_winforms.Classes
             if (!(y < 0 || y >= Rows || x < 0 || x >= Columns))
             {
                 //only do something if it's inside the grid
-                int index = (x + y) * Columns;
+                int index = x + (y * Columns);
                 CurrentStates[index] = !(CurrentStates[index]); //set to the opposite of the currrent value at that index
 
                 //depending on if it was flipped update the count accordingly.
@@ -163,9 +192,98 @@ namespace GameOfLife_winforms.Classes
             }
         }
 
+        public void AddGlider(int x, int y, string direction, int width, int height)
+        {
+            //TODO add glider!
+            //direction will be the direction to point it. the x/y will be the starting point on the back (the part that 'pushes')
+            //might have issues with out of boundsness so near the edges might be iffy. restrict to 10 pixels of border to account for that
+            //width/height are part of grid and not the same as rows/columns (potentially)
+            if (x > 10 && y > 10 && x < width - 10 && y < height - 10)
+            {
+                //ready to add!
+                //start with the current pixel
+                int index = x + (y * Columns);
+
+                if (!CurrentStates[index])
+                {
+                    CurrentStates[index] = true;
+                    LiveCellCount++;
+                }
+
+                //add the rest of the glider. 
+                //glider (SE) looks like
+                /*
+                     *..
+                     .**
+                     **.    
+                     
+                x, y+2; y+2, y+1
+                x+1, y+1; x+1, y+2                
+                */
+
+                int n1 = 0, n2 = 0, n3 = 0, n4 = 0;
+                switch (direction)
+                {
+                    case "nw":
+                        n1 = (x) + ((y - 2) * Columns);
+                        n2 = (x - 1) + ((y - 1) * Columns);
+                        n3 = (x - 2) + ((y - 1) * Columns);
+                        n4 = (x - 1) + ((y - 2) * Columns);
+                        break;
+                    case "se":
+                        n1 = (x) + ((y + 2) * Columns);
+                        n2 = (x + 1) + ((y + 1) * Columns);
+                        n3 = (x + 2) + ((y + 1) * Columns);
+                        n4 = (x + 1) + ((y + 2) * Columns);
+                        break;
+                    case "ne":
+                        n1 = (x + 2) + ((y) * Columns);
+                        n2 = (x + 1) + ((y - 1) * Columns);
+                        n3 = (x + 2) + ((y - 1) * Columns);
+                        n4 = (x + 1) + ((y - 2) * Columns);
+                        break;
+                    case "sw":
+                        n1 = (x - 2) + ((y) * Columns);
+                        n2 = (x - 1) + ((y + 1) * Columns);
+                        n3 = (x - 2) + ((y + 1) * Columns);
+                        n4 = (x - 1) + ((y + 2) * Columns);
+                        break;                   
+                    default:
+                        break;
+                }
+
+
+
+                if (!CurrentStates[n1])
+                {
+                    CurrentStates[n1] = true;
+                    LiveCellCount++;
+                }
+
+                if (!CurrentStates[n2])
+                {
+                    CurrentStates[n2] = true;
+                    LiveCellCount++;
+                }
+
+                if (!CurrentStates[n3])
+                {
+                    CurrentStates[n3] = true;
+                    LiveCellCount++;
+                }
+
+                if (!CurrentStates[n4])
+                {
+                    CurrentStates[n4] = true;
+                    LiveCellCount++;
+                }
+
+            }
+        }
+
         //dead = . , alive = * 
         //the original notes say this converts the grid to a string representation. 
-        //TODO find the reason it needs an override
+        //supposed to be outputting the booleans as a string representation, not sure why it didn't work on my *States.ToString() calls.
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
@@ -173,7 +291,22 @@ namespace GameOfLife_winforms.Classes
             {
                 for (int x = 0; x < Columns; x++)
                 {
-                    sb.Append(CurrentStates[(x + y) * Columns] ? "*" : ".");
+                    sb.Append(CurrentStates[x + (y * Columns)] ? "*" : ".");
+                }
+            }
+
+            return sb.ToString();
+        }
+
+        //since the override wasn't working for me make a new call that I can use explicitly
+        public string GetStateString(bool[] values)
+        {
+            StringBuilder sb = new StringBuilder();
+            for (int y = 0; y < Rows; y++)
+            {
+                for (int x = 0; x < Columns; x++)
+                {
+                    sb.Append(values[x + (y * Columns)] ? "*" : ".");
                 }
             }
 
@@ -196,10 +329,10 @@ namespace GameOfLife_winforms.Classes
                     for (int x = 0; x < Columns; x++)
                     {
                         contacts = GetContacts(x, y);
-                        index = (x + y) * Columns;
+                        index = x + (y * Columns);
                         alive = CurrentStates[index];
 
-                        if ((alive && SurviveRules.Contains(contacts)) || (!alive && BirthRules == contacts) )
+                        if ((alive && SurviveRules.Contains(contacts)) || (!alive && BirthRules == contacts))
                         {
                             NewStates[index] = true;
                             LiveCellCount++;
@@ -216,47 +349,47 @@ namespace GameOfLife_winforms.Classes
         //this was always the function that I could never wrap my head around
         private int GetContacts(int x, int y)
         {
-            //TODO fix this. logic is wrong, getting out of bounds errors
+            //had the groupings all wrong. fixed and made it a bit clearer
             int ContactCount = 0;
 
             //have to test each because it could have up to 8 neighbors. probably could find a way to shortcut the number of checks if it's already over the number of birth rules
             //top left
-            if ((x > 0 && y > 0) && CurrentStates[(x-1 + y-1) * Columns])
+            if ((x > 0 && y > 0) && CurrentStates[(x - 1) + ((y - 1) * Columns)])
             {
                 ContactCount++;
             }
             //top
-            if (y > 0 && CurrentStates[(x + y - 1) * Columns])
+            if (y > 0 && CurrentStates[x + ((y - 1) * Columns)])
             {
                 ContactCount++;
             }
             //top right
-            if (y > 0 && x + 1 < Columns && CurrentStates[(x + y) * Columns])
+            if (y > 0 && x + 1 < Columns && CurrentStates[(x + 1) + ((y - 1) * Columns)])
             {
                 ContactCount++;
             }
             //left
-            if (x + 1 < Columns && CurrentStates[(x + 1 + y) * Columns])
+            if (x + 1 < Columns && CurrentStates[(x + 1) + (y * Columns)])
             {
                 ContactCount++;
             }
             //bottom left
-            if (x+1 < Columns && y+1 < Rows && CurrentStates[(x+1 + y+1) * Columns])
+            if (x + 1 < Columns && y + 1 < Rows && CurrentStates[(x + 1) + ((y + 1) * Columns)])
             {
                 ContactCount++;
             }
             //bottom
-            if (y+1 < Rows && CurrentStates[(x+y+1) * Columns])
+            if (y + 1 < Rows && CurrentStates[x + ((y + 1) * Columns)])
             {
                 ContactCount++;
             }
             //bottom right
-            if (x>0 && y+1 < Rows && CurrentStates[(x+y) * Columns])
+            if (x > 0 && y + 1 < Rows && CurrentStates[(x - 1) + ((y + 1) * Columns)])
             {
                 ContactCount++;
             }
             //right
-            if ((x > 0) && CurrentStates[(x - 1 + y) * Columns])
+            if ((x > 0) && CurrentStates[(x - 1) + (y * Columns)])
             {
                 ContactCount++;
             }

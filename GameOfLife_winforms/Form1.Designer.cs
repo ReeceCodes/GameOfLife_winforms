@@ -42,7 +42,17 @@
             this.clrDialog = new System.Windows.Forms.ColorDialog();
             this.btnDeadColor = new System.Windows.Forms.Button();
             this.btnAliveColor = new System.Windows.Forms.Button();
+            this.nmbInterval = new System.Windows.Forms.NumericUpDown();
+            this.label3 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cboPresets = new System.Windows.Forms.ComboBox();
+            this.chkShortcut = new System.Windows.Forms.CheckBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.nmbRandom = new System.Windows.Forms.NumericUpDown();
             this.grdLife = new GameOfLife_winforms.User_Controls.Grid();
+            ((System.ComponentModel.ISupportInitialize)(this.nmbInterval)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nmbRandom)).BeginInit();
             this.SuspendLayout();
             // 
             // btnStart
@@ -118,7 +128,7 @@
             // chkLines
             // 
             this.chkLines.AutoSize = true;
-            this.chkLines.Location = new System.Drawing.Point(535, 495);
+            this.chkLines.Location = new System.Drawing.Point(34, 109);
             this.chkLines.Name = "chkLines";
             this.chkLines.Size = new System.Drawing.Size(103, 17);
             this.chkLines.TabIndex = 9;
@@ -152,7 +162,7 @@
             // 
             this.btnDeadColor.BackColor = System.Drawing.Color.White;
             this.btnDeadColor.ForeColor = System.Drawing.Color.Black;
-            this.btnDeadColor.Location = new System.Drawing.Point(625, 413);
+            this.btnDeadColor.Location = new System.Drawing.Point(93, 19);
             this.btnDeadColor.Name = "btnDeadColor";
             this.btnDeadColor.Size = new System.Drawing.Size(75, 23);
             this.btnDeadColor.TabIndex = 12;
@@ -163,12 +173,114 @@
             // 
             this.btnAliveColor.BackColor = System.Drawing.Color.Black;
             this.btnAliveColor.ForeColor = System.Drawing.Color.White;
-            this.btnAliveColor.Location = new System.Drawing.Point(535, 413);
+            this.btnAliveColor.Location = new System.Drawing.Point(3, 19);
             this.btnAliveColor.Name = "btnAliveColor";
             this.btnAliveColor.Size = new System.Drawing.Size(75, 23);
             this.btnAliveColor.TabIndex = 13;
             this.btnAliveColor.Text = "Alive Color";
             this.btnAliveColor.UseVisualStyleBackColor = false;
+            // 
+            // nmbInterval
+            // 
+            this.nmbInterval.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.nmbInterval.Location = new System.Drawing.Point(107, 48);
+            this.nmbInterval.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.nmbInterval.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nmbInterval.Name = "nmbInterval";
+            this.nmbInterval.Size = new System.Drawing.Size(61, 20);
+            this.nmbInterval.TabIndex = 14;
+            this.nmbInterval.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nmbInterval.ValueChanged += new System.EventHandler(this.nmbInterval_ValueChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(5, 50);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(78, 13);
+            this.label3.TabIndex = 15;
+            this.label3.Text = "Interval (in ms):";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.cboPresets);
+            this.groupBox1.Controls.Add(this.chkShortcut);
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.nmbRandom);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.btnAliveColor);
+            this.groupBox1.Controls.Add(this.nmbInterval);
+            this.groupBox1.Controls.Add(this.chkLines);
+            this.groupBox1.Controls.Add(this.btnDeadColor);
+            this.groupBox1.Location = new System.Drawing.Point(518, 275);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(189, 237);
+            this.groupBox1.TabIndex = 16;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Settings";
+            // 
+            // cboPresets
+            // 
+            this.cboPresets.FormattingEnabled = true;
+            this.cboPresets.Items.AddRange(new object[] {
+            "Pixel",
+            "Glider (NW)",
+            "Glider (NE)",
+            "Glider (SW)",
+            "Glider (SE)"});
+            this.cboPresets.Location = new System.Drawing.Point(17, 177);
+            this.cboPresets.Name = "cboPresets";
+            this.cboPresets.Size = new System.Drawing.Size(121, 21);
+            this.cboPresets.TabIndex = 19;
+            // 
+            // chkShortcut
+            // 
+            this.chkShortcut.AutoSize = true;
+            this.chkShortcut.Location = new System.Drawing.Point(34, 132);
+            this.chkShortcut.Name = "chkShortcut";
+            this.chkShortcut.Size = new System.Drawing.Size(112, 17);
+            this.chkShortcut.TabIndex = 18;
+            this.chkShortcut.Text = "Allow Infinite Loop";
+            this.chkShortcut.UseVisualStyleBackColor = true;
+            this.chkShortcut.CheckedChanged += new System.EventHandler(this.chkShortcut_CheckedChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(5, 74);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(92, 13);
+            this.label4.TabIndex = 17;
+            this.label4.Text = "Randomizer Fill %:";
+            // 
+            // nmbRandom
+            // 
+            this.nmbRandom.Location = new System.Drawing.Point(107, 74);
+            this.nmbRandom.Name = "nmbRandom";
+            this.nmbRandom.Size = new System.Drawing.Size(61, 20);
+            this.nmbRandom.TabIndex = 16;
+            this.nmbRandom.Value = new decimal(new int[] {
+            25,
+            0,
+            0,
+            0});
+            this.nmbRandom.ValueChanged += new System.EventHandler(this.nmbRandom_ValueChanged);
             // 
             // grdLife
             // 
@@ -183,17 +295,16 @@
             this.grdLife.Rows = 0;
             this.grdLife.Size = new System.Drawing.Size(500, 500);
             this.grdLife.TabIndex = 0;
+            this.grdLife.TabStop = false;
             // 
             // frmGOL
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(712, 662);
-            this.Controls.Add(this.btnAliveColor);
-            this.Controls.Add(this.btnDeadColor);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.btnStep);
-            this.Controls.Add(this.chkLines);
             this.Controls.Add(this.lblPop);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lblGen);
@@ -205,6 +316,10 @@
             this.Controls.Add(this.grdLife);
             this.Name = "frmGOL";
             this.Text = "Game of Life";
+            ((System.ComponentModel.ISupportInitialize)(this.nmbInterval)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nmbRandom)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -227,6 +342,13 @@
         private System.Windows.Forms.ColorDialog clrDialog;
         private System.Windows.Forms.Button btnDeadColor;
         private System.Windows.Forms.Button btnAliveColor;
+        private System.Windows.Forms.NumericUpDown nmbInterval;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.NumericUpDown nmbRandom;
+        private System.Windows.Forms.CheckBox chkShortcut;
+        private System.Windows.Forms.ComboBox cboPresets;
     }
 }
 
