@@ -49,8 +49,8 @@
             this.chkShortcut = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
             this.nmbRandom = new System.Windows.Forms.NumericUpDown();
-            this.grdLife = new GameOfLife_winforms.User_Controls.Grid();
             this.label5 = new System.Windows.Forms.Label();
+            this.grdLife = new GameOfLife_winforms.User_Controls.Grid();
             ((System.ComponentModel.ISupportInitialize)(this.nmbInterval)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nmbRandom)).BeginInit();
@@ -89,7 +89,7 @@
             this.btnRandom.Name = "btnRandom";
             this.btnRandom.Size = new System.Drawing.Size(75, 53);
             this.btnRandom.TabIndex = 4;
-            this.btnRandom.Text = "Random Generate";
+            this.btnRandom.Text = "Generate Random";
             this.btnRandom.UseVisualStyleBackColor = true;
             // 
             // label1
@@ -284,6 +284,15 @@
             0});
             this.nmbRandom.ValueChanged += new System.EventHandler(this.nmbRandom_ValueChanged);
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 161);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(82, 13);
+            this.label5.TabIndex = 20;
+            this.label5.Text = "On Click Add A:";
+            // 
             // grdLife
             // 
             this.grdLife.AliveColor = System.Drawing.Color.Empty;
@@ -298,15 +307,6 @@
             this.grdLife.Size = new System.Drawing.Size(500, 500);
             this.grdLife.TabIndex = 0;
             this.grdLife.TabStop = false;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 161);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(82, 13);
-            this.label5.TabIndex = 20;
-            this.label5.Text = "On Click Add A:";
             // 
             // frmGOL
             // 
